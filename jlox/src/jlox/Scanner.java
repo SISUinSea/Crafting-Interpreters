@@ -79,23 +79,8 @@ class Scanner {
                 if (match('/')) {
                     while (peek() != '\n' && !isAtEnd()) advance();
                 } else if (match('*')) {
-                    while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) advance();   // peek() 가 '*', peekNext()가 '/'이 아닐 때까지 반복
-
-                    if (isAtEnd()) {
-                        Lox.error(line, "Unterminated multiline comment.");
-                        return;
-                    }
-                    // 주석 종료 글자 '*' 건너뛰기
-                    advance();
-
-                    if (isAtEnd()) {
-                        Lox.error(line, "Unterminated multiline comment.");
-                        return;
-                    }
-                    // 주석 종료 글자 '/' 건너뛰기
-                    advance();
-
-                }else {
+                    multilineComment();
+                } else {
                     addToken(SLASH);
                 }
                 break;
@@ -118,6 +103,33 @@ class Scanner {
                     break;
                 }
         }
+    }
+
+
+    private void multilineComment() {
+        while (!(peek() == '*' && peekNext() == '/') && !isAtEnd()) { // peek() 가 '*', peekNext()가 '/'이 아닐 때까지 반복
+            if (peek() == '/' && peekNext() == '*') {
+                advance();
+                advance();
+                multilineComment();
+            } else {
+                advance();
+            }
+        }
+
+        if (isAtEnd()) {
+            Lox.error(line, "Unterminated multiline comment.");
+            return;
+        }
+        // 주석 종료 글자 '*' 건너뛰기
+        advance();
+
+        if (isAtEnd()) {
+            Lox.error(line, "Unterminated multiline comment.");
+            return;
+        }
+        // 주석 종료 글자 '/' 건너뛰기
+        advance();
     }
 
     private void identifier() {
