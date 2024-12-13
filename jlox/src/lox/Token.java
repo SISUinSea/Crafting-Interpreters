@@ -1,4 +1,4 @@
-package jlox;
+package lox;
 
 public class Token {
     final TokenType type;  // enum으로 토큰의 종류를 scan할 때 파악해놓기

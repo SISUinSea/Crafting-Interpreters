@@ -1,6 +1,6 @@
-package jlox;
+package lox;
 
-import static jlox.TokenType.*;
+import static lox.TokenType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package jlox;
+package lox;
 
 enum TokenType {
     // 단일 문자 토큰
